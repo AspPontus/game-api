@@ -15,11 +15,6 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html")
 })
 
-app.post("/api/inserted", (req, res) => {
-    res.json({
-        test: "test"
-    })
-})
 
 app.listen(3000, () => {
     console.log("Server has started")
