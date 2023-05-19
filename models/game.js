@@ -1,13 +1,11 @@
 const { default: mongoose } = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+    title: {
+        type: String
     },
-    query_name: {
-        type: String,
-        required: true
+    game_query: {
+        type: String
     }
 });
 
