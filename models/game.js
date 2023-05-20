@@ -14,16 +14,18 @@ const gameSchema = new mongoose.Schema({
         required: true
     },
     multiplayer: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     online: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     release_date: {
         type: Date
     },
     pg_rating: {
-        type: String
+        type: Number
     },
     developed_by: {
         type: String
