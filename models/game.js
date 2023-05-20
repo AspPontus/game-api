@@ -6,6 +6,9 @@ const gameSchema = new mongoose.Schema({
     },
     game_query: {
         type: String
+    },
+    poster_img: {
+        type: String
     }
 });
 

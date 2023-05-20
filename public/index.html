@@ -2,9 +2,10 @@
 <html>
   <head> </head>
   <body>
-    <form action="/api/games" method="post">
+    <form action="/api/games" method="post" enctype="multipart/form-data">
       <input type="text" name="game_title" placeholder="title" />
       <input type="text" name="game_query" placeholder="query" />
+      <input type="file" name="poster_img" />
       <input type="submit" />
     </form>
   </body>
