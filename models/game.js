@@ -2,12 +2,30 @@ const { default: mongoose } = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
     title: {
-        type: String
+        type: String,
+        required: true
     },
     game_query: {
-        type: String
+        type: String,
+        required: true
     },
     poster_img: {
+        type: String,
+        required: true
+    },
+    multiplayer: {
+        type: Boolean
+    },
+    online: {
+        type: Boolean
+    },
+    release_date: {
+        type: Date
+    },
+    pg_rating: {
+        type: String
+    },
+    developed_by: {
         type: String
     }
 });
