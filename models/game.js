@@ -29,7 +29,10 @@ const gameSchema = new mongoose.Schema({
     },
     developed_by: {
         type: String
+    },
+    category: {
+        type: Array
     }
 });
 
-module.exports = mongoose.model("Game", gameSchema);
+module.exports = mongoose.model("Games", gameSchema);

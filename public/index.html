@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head> </head>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
   <body>
-    <form action="/api/games" method="post" enctype="multipart/form-data">
-      <input type="text" name="game_title" placeholder="title" />
-      <input type="text" name="game_query" placeholder="query" />
-      <input type="file" name="poster_img" />
-      <input type="submit" />
-    </form>
+    <div class="container">
+      <form action="/api/games" method="post" enctype="multipart/form-data">
+        <input type="text" name="game_title" placeholder="title" />
+        <input type="text" name="game_query" placeholder="query" />
+        <input type="file" name="poster_img" />
+        <label for="multiplayer">Multiplayer</label>
+        <input type="checkbox" name="multiplayer" value="true" />
+        <label for="online">Online</label>
+        <input type="checkbox" name="online" value="true" />
+        <input type="text" name="date" placeholder="(yyyy-mm-dd)" />
+        <input type="number" name="pg_rating" placeholder="pg rating" />
+        <input type="text" name="developed_by" placeholder="developer" />
+        <input type="text" name="category" placeholder="category" />
+        <input type="submit" />
+      </form>
+    </div>
   </body>
 </html>
