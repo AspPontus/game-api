@@ -32,6 +32,9 @@ const gameSchema = new mongoose.Schema({
     },
     category: {
         type: Array
+    },
+    search_queries: {
+        type: Array
     }
 });
 
