@@ -39,27 +39,37 @@ app.get("/", (req, res) => {
 //post form to database
 app.post("/api/games", upload.single('poster_img'), async (req, res) => {
 
-
-    console.log(req.body.game_title);
-    const game = await Games.create({
-        title: req.body.game_title,
-        game_query: req.body.game_query,
-        poster_img: req.file.path,
-        multiplayer: req.body.multiplayer,
-        online: req.body.online,
-        date: req.body.date,
-        pg_rating: req.body.pg_rating,
-        developed_by: req.body.developed_by,
-        category: req.body.category.toLowerCase().split(',')
-    });
-    game.save();
-    res.json(game);
+    try{
+        console.log(req.body.game_title);
+        const game = await Games.create({
+            title: req.body.game_title,
+            game_query: req.body.game_query,
+            poster_img: req.file.path,
+            multiplayer: req.body.multiplayer,
+            online: req.body.online,
+            date: req.body.date,
+            pg_rating: req.body.pg_rating,
+            developed_by: req.body.developed_by,
+            category: req.body.category.toLowerCase().split(', '),
+            search_queries: req.body.search_queries.toLowerCase().split(', ')
+        });  
+        game.save();
+        res.status(201).json(game);
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({
+            err: "400: Bad Request"
+        })
+    }
+    
 });
 
 //fetch all the games
-app.get("/games", async (req, res) => {
-    let { limit, category } = req.query;
+app.get("/api/games", async (req, res) => {
+    let { limit, category, search_query } = req.query;
     let filter;
+
+    console.log(search_query)
 
     if(!limit) {
         limit = 25
@@ -67,22 +77,41 @@ app.get("/games", async (req, res) => {
     if(category) {
         filter = {category}
     }
+    if(search_query) {
+        filter = {search_queries: search_query}
+    }
 
-    const games = await Games.find(filter).limit(parseInt(limit))
-    res.json(games)
+    try{
+        const games = await Games.find(filter).limit(parseInt(limit))
+        res.json(games)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({
+            err: "500: Server Error"
+        })
+    }
 });
 
-app.get("/games/:id", async (req, res) => {
+app.get("/api/games/:id", async (req, res) => {
     const game = await Games.findById(req.params.id)
     res.json(game)
 });
 
 //fetch games by query
-app.get("/games/:query", async (req, res) => {
+app.get("/api/games/:query", async (req, res) => {
+try{
     const games = await Games.find({game_query: req.params.query})
     res.json(games)
+} catch (err) {
+    console.error(err)
+    res.status(400).json({
+        err: "400: Bad Request"
+    })
+}
+    
 });
 
-app.listen(3000, () => {
-    console.log("Server has started")
-});
+
+const listener = app.listen(process.env.PORT || 3000, () => {
+    console.log('Your app is listening on port ' + listener.address().port)
+  })
