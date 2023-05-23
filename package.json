@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A games database API for recommending games!",
   "scripts": {
+    "start": "node index.js",
     "devStart": "nodemon index.js"
   },
   "author": "Pontus",
