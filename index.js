@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 //connect to DB
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection
-db.on('error', (error) => console.error(err));
+db.on('error', (error) => console.error(error));
 db.once('open', () => console.log("Database opened successfully!!"));
 
 //default form input page
