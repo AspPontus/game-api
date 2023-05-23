@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Games = require("../games-api/models/game");
+const Games = require("../games-api/models/game.js");
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
