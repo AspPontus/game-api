@@ -24,6 +24,7 @@ app.use(express.json());
 app.use('/images', express.static('images'));
 app.use(bodyParser.urlencoded({extended: false}));
 
+console.log(typeof(process.env.MONGOOSE_URI))
 //connect to DB
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection
