@@ -39,36 +39,45 @@ app.get("/", (req, res) => {
 
 //post form to database
 app.post("/api/games", upload.single('poster_img'), async (req, res) => {
-
-    // check if title already exists
-    if (Games.find({title: req.body.game_title})) {
-        console.error("title already exists")
-        res.status(400).json({
-            err: "title already exists"
+    const foundUser = await Games.findOne({title: req.body.game_title})
+    
+    if (req.body.auth !== process.env.AUTH_TOKEN) {
+        console.error("Could not authenticate")
+        res.json({
+            err: "Could not authenticate"
         })
-    } else {
-        try{
-            const game = await Games.create({
-                title: req.body.game_title,
-                game_query: req.body.game_query,
-                poster_img: req.file.path,
-                multiplayer: req.body.multiplayer,
-                online: req.body.online,
-                date: req.body.date,
-                pg_rating: req.body.pg_rating,
-                developed_by: req.body.developed_by,
-                category: req.body.category.toLowerCase().split(', '),
-                search_queries: req.body.search_queries.toLowerCase().split(', ')
-            });  
-            game.save();
-            res.status(201).json(game);
-        } catch (err) {
-            console.error(err)
-            res.status(400).json({
-                err: "400: Bad Request"
-            })
-        }
-}
+        return
+    }
+
+    console.log(foundUser)
+
+    if(foundUser) {
+        res.json(foundUser)
+    }
+
+            try{
+                const game = await Games.create({
+                    title: req.body.game_title,
+                    game_query: req.body.game_query,
+                    poster_img: req.file.path,
+                    multiplayer: req.body.multiplayer,
+                    online: req.body.online,
+                    date: req.body.date,
+                    pg_rating: req.body.pg_rating,
+                    developed_by: req.body.developed_by,
+                    category: req.body.category.toLowerCase().split(', '),
+                    search_queries: req.body.search_queries.toLowerCase().split(', ')
+                });  
+                game.save();
+                res.status(201).json(game);
+            } catch (err) {
+                console.error(err)
+                res.status(400).json({
+                    err: "400: Bad Request"
+                })
+            }
+            
+
     
 });
 
