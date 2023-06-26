@@ -49,8 +49,8 @@ app.post("/api/games", upload.single('poster_img'), async (req, res) => {
         return
     }
 
-    console.log(foundUser)
 
+    
     if(foundUser) {
         res.json(foundUser)
     }
