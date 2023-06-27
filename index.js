@@ -41,21 +41,23 @@ app.get("/", (req, res) => {
 
 //Read JSON file from web-scraper and insert values into Database/API
     const uploadToAPI = async () => {
-        const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json')
+        
+        const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json');
+        
         await fs.readFile(fullPath, 'utf8',  (err, data) => {
            JSON.parse(data).map(async (item) => {
+            const foundUser = await Games.findOne({title: item.title});
+            if(foundUser) return;
             try{
                 const game = await Games.create({
                     title: item.title,
-     /*                game_query: req.body.game_query,
-                    poster_img: req.file.path,
-                    multiplayer: req.body.multiplayer,
-                    online: req.body.online,
-                    date: req.body.date,
-                    pg_rating: req.body.pg_rating,
-                    developed_by: req.body.developed_by,
-                    category: req.body.category.toLowerCase().split(', '),
-                    search_queries: req.body.search_queries.toLowerCase().split(', ') */
+                    game_query: item.game_query,
+                     poster_img: item.poster,
+                    age_rating_US: item.age_limit_US,
+                    developed_by: item.developer,
+                    category: item.category,
+                    screenshots: item.screenshots
+                  /*   search_queries: req.body.search_queries.toLowerCase().split(', ') */
                 });  
                 game.save();
             } catch (err) {

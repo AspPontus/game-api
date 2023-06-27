@@ -5,7 +5,7 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-/*     game_query: {
+     game_query: {
         type: String,
         required: true
     },
@@ -13,18 +13,8 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    multiplayer: {
-        type: Boolean,
-        default: false
-    },
-    online: {
-        type: Boolean,
-        default: false
-    },
-    release_date: {
-        type: Date
-    },
-    pg_rating: {
+  
+    age_rating_US: {
         type: Number
     },
     developed_by: {
@@ -33,9 +23,12 @@ const gameSchema = new mongoose.Schema({
     category: {
         type: Array
     },
-    search_queries: {
+    screenshots: {
         type: Array
-    } */
+    }
+    /* search_queries: {
+        type: Array
+    }  */
 });
 
 module.exports = mongoose.model("Games", gameSchema);
