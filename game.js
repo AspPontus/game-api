@@ -5,7 +5,7 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    game_query: {
+/*     game_query: {
         type: String,
         required: true
     },
@@ -35,7 +35,7 @@ const gameSchema = new mongoose.Schema({
     },
     search_queries: {
         type: Array
-    }
+    } */
 });
 
 module.exports = mongoose.model("Games", gameSchema);

@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const Games = require("./game.js");
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 require('dotenv').config();
 
@@ -17,14 +19,13 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({storage});
+/* const upload = multer({storage}); */
 
 //body parser config, set images as public folder
 app.use(express.json());
 app.use('/images', express.static('images'));
 app.use(bodyParser.urlencoded({extended: false}));
 
-console.log(typeof(process.env.MONGOOSE_URI))
 //connect to DB
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection
@@ -37,28 +38,16 @@ app.get("/", (req, res) => {
 });
 
 
-//post form to database
-app.post("/api/games", upload.single('poster_img'), async (req, res) => {
-    const foundUser = await Games.findOne({title: req.body.game_title})
-    
-    if (req.body.auth !== process.env.AUTH_TOKEN) {
-        console.error("Could not authenticate")
-        res.json({
-            err: "Could not authenticate"
-        })
-        return
-    }
 
-
-    
-    if(foundUser) {
-        res.json(foundUser)
-    }
-
+//Read JSON file from web-scraper and insert values into Database/API
+    const uploadToAPI = async () => {
+        const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json')
+        await fs.readFile(fullPath, 'utf8',  (err, data) => {
+           JSON.parse(data).map(async (item) => {
             try{
                 const game = await Games.create({
-                    title: req.body.game_title,
-                    game_query: req.body.game_query,
+                    title: item.title,
+     /*                game_query: req.body.game_query,
                     poster_img: req.file.path,
                     multiplayer: req.body.multiplayer,
                     online: req.body.online,
@@ -66,20 +55,16 @@ app.post("/api/games", upload.single('poster_img'), async (req, res) => {
                     pg_rating: req.body.pg_rating,
                     developed_by: req.body.developed_by,
                     category: req.body.category.toLowerCase().split(', '),
-                    search_queries: req.body.search_queries.toLowerCase().split(', ')
+                    search_queries: req.body.search_queries.toLowerCase().split(', ') */
                 });  
                 game.save();
-                res.status(201).json(game);
             } catch (err) {
                 console.error(err)
-                res.status(400).json({
-                    err: "400: Bad Request"
-                })
             }
-            
+           })
+    })
+}
 
-    
-});
 
 //fetch all the games
 app.get("/api/games", async (req, res) => {
@@ -127,6 +112,21 @@ try{
 }
     
 });
+
+
+//Fetching game scraper JSON file: 
+app.get('/test', async (req, res) => {
+    const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json')
+     await fs.readFile(fullPath, 'utf8',  (err, data) => {
+        const arr = [];
+        JSON.parse(data).map(item => {
+            arr.push(item.title)
+        })
+        res.json(arr)
+     })
+})
+
+uploadToAPI()
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
