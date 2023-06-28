@@ -13,8 +13,11 @@ const gameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    game_info: {
+        type: Object
+    }
   
-    age_rating_US: {
+/*     age_rating_US: {
         type: Number
     },
     developed_by: {
@@ -25,7 +28,7 @@ const gameSchema = new mongoose.Schema({
     },
     screenshots: {
         type: Array
-    }
+    } */
     /* search_queries: {
         type: Array
     }  */

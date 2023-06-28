@@ -46,17 +46,19 @@ app.get("/", (req, res) => {
         
         await fs.readFile(fullPath, 'utf8',  (err, data) => {
            JSON.parse(data).map(async (item) => {
+            /* console.log(item.gameInfo) */
             const foundUser = await Games.findOne({title: item.title});
             if(foundUser) return;
             try{
                 const game = await Games.create({
                     title: item.title,
                     game_query: item.game_query,
-                     poster_img: item.poster,
-                    age_rating_US: item.age_limit_US,
+                    poster_img: item.poster,
+                    game_info: item.gameInfo
+                    /* age_rating_US: item.age_limit_US,
                     developed_by: item.developer,
                     category: item.category,
-                    screenshots: item.screenshots
+                    screenshots: item.gameInfo.screenshots */
                   /*   search_queries: req.body.search_queries.toLowerCase().split(', ') */
                 });  
                 game.save();

@@ -1,7 +1,7 @@
 {
   "name": "games-api",
-  "version": "1.0.1",
-  "description": "A games database API for recommending games!",
+  "version": "1.2.0",
+  "description": "A games database API for recommending games, with data collected from XBOX!",
   "scripts": {
     "start": "node index.js",
     "devStart": "nodemon index.js"
