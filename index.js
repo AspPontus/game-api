@@ -3,23 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const Games = require("./game.js");
 const bodyParser = require('body-parser');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 require('dotenv').config();
-
-//set image storage
-/* const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './images/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, new Date().toISOString() + file.originalname)
-    }
-}); */
-
-/* const upload = multer({storage}); */
 
 //body parser config, set images as public folder
 app.use(express.json());
@@ -32,44 +17,11 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log("Database opened successfully!!"));
 
-//default form input page
-/* app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
-}); */
-
-
-
-//Read JSON file from web-scraper and insert values into Database/API
-    const uploadToAPI = async () => {
-        
-        const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json');
-        
-        await fs.readFile(fullPath, 'utf8',  (err, data) => {
-           JSON.parse(data).map(async (item) => {
-            const foundUser = await Games.findOne({title: item.title});
-            if(foundUser) return;
-            try{
-                const game = await Games.create({
-                    title: item.title,
-                    game_query: item.game_query,
-                    poster_img: item.poster,
-                    game_info: item.gameInfo
-                });  
-                game.save();
-            } catch (err) {
-                console.error(err)
-            }
-           })
-    })
-};
-uploadToAPI()
 
 //fetch all the games
 app.get("/api/games", async (req, res) => {
     let { limit, category, search_query } = req.query;
     let filter;
-
-    /* console.log(search_query) */
 
     if(!limit) {
         limit = 25

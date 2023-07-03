@@ -4,7 +4,9 @@
   "description": "A games database API for recommending games, with data collected from XBOX!",
   "scripts": {
     "start": "node index.js",
-    "devStart": "nodemon index.js"
+    "devStart": "nodemon index.js",
+    "truncate": "node ./controls/clear-api.js",
+    "populate": "node ./controls/populate-api.js"
   },
   "author": "Pontus",
   "license": "ISC",
