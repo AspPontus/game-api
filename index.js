@@ -10,14 +10,14 @@ const fs = require('fs');
 require('dotenv').config();
 
 //set image storage
-const storage = multer.diskStorage({
+/* const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './images/')
     },
     filename: (req, file, cb) => {
         cb(null, new Date().toISOString() + file.originalname)
     }
-});
+}); */
 
 /* const upload = multer({storage}); */
 
@@ -33,9 +33,9 @@ db.on('error', (error) => console.error(error));
 db.once('open', () => console.log("Database opened successfully!!"));
 
 //default form input page
-app.get("/", (req, res) => {
+/* app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
-});
+}); */
 
 
 
@@ -61,15 +61,15 @@ app.get("/", (req, res) => {
             }
            })
     })
-}
-
+};
+uploadToAPI()
 
 //fetch all the games
 app.get("/api/games", async (req, res) => {
     let { limit, category, search_query } = req.query;
     let filter;
 
-    console.log(search_query)
+    /* console.log(search_query) */
 
     if(!limit) {
         limit = 25
@@ -92,39 +92,24 @@ app.get("/api/games", async (req, res) => {
     }
 });
 
+//fetch games by id
 app.get("/api/games/:id", async (req, res) => {
     const game = await Games.findById(req.params.id)
     res.json(game)
 });
 
 //fetch games by query
-app.get("/api/games/:query", async (req, res) => {
-try{
-    const games = await Games.find({game_query: req.params.query})
-    res.json(games)
-} catch (err) {
-    console.error(err)
-    res.status(400).json({
-        err: "400: Bad Request"
-    })
-}
-    
-});
-
-
-//Fetching game scraper JSON file: 
-app.get('/test', async (req, res) => {
-    const fullPath = path.resolve('/Users/pontusasp/desktop/games-scraper/Game.json')
-     await fs.readFile(fullPath, 'utf8',  (err, data) => {
-        const arr = [];
-        JSON.parse(data).map(item => {
-            arr.push(item.title)
+app.get("/api/games/query/:query", async (req, res) => {
+    try{
+        const games = await Games.find({game_query: req.params.query})
+        res.json(games)
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({
+            err: "400: Bad Request"
         })
-        res.json(arr)
-     })
-})
-
-uploadToAPI()
+    }      
+});
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
