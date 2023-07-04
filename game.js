@@ -16,22 +16,6 @@ const gameSchema = new mongoose.Schema({
     game_info: {
         type: Object
     }
-  
-/*     age_rating_US: {
-        type: Number
-    },
-    developed_by: {
-        type: String
-    },
-    category: {
-        type: Array
-    },
-    screenshots: {
-        type: Array
-    } */
-    /* search_queries: {
-        type: Array
-    }  */
 });
 
 module.exports = mongoose.model("Games", gameSchema);
