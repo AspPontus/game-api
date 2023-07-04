@@ -11,7 +11,6 @@
   > - Limit
   > - Genre
 - Truncate and Populate Database
-- Edge Cases & Customization
 - Issues & Changelog
 
 ---
@@ -121,4 +120,22 @@ The script will not exit automatically due to the server running and the script 
 
 To exit the script
 
-# TBC...
+## Issues & Changelog
+
+##### Known Issues:
+
+- If Web-Scraper times out on a web-page game info may get scrambled
+- There is no release date for the games
+- Populate & Truncate Scripts don't exit properly
+- Missing Online tab
+
+##### Changelog:
+
+###### V 1.2.0
+
+- Now fetches data from JSON from webscraper
+- Removed image hosting, and instead fetches images from Xbox
+- Removed form input
+- Updated Schema
+- Removed Dependencies: Multer, Body Parser
+- Removed POST request for User

@@ -2,14 +2,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Games = require("./game.js");
-const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
 //body parser config, set images as public folder
 app.use(express.json());
 app.use('/images', express.static('images'));
-app.use(bodyParser.urlencoded({extended: false}));
 
 //connect to DB
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
