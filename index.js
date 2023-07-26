@@ -18,16 +18,18 @@ db.once('open', () => console.log("Database opened successfully!!"));
 app.get("/api/games", async (req, res) => {
     let { limit, category, search_query } = req.query;
     let filter;
+    console.log(req.query)
 
     if(!limit) {
         limit = 25
     }
     if(category) {
-        filter = {category}
+        filter = {'game_info.category': category}
     }
     if(search_query) {
         filter = {search_queries: search_query}
     }
+    console.log(filter)
 
     try{
         const games = await Games.find(filter).limit(parseInt(limit))
