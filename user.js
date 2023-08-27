@@ -1,24 +1,24 @@
 const { default: mongoose } = require('mongoose');
 
-const gameSchema = new mongoose.Schema({
-    title: {
+const userSchema = new mongoose.Schema({
+    username: {
         type: String,
         required: true
     },
-     game_query: {
+    email: {
         type: String,
         required: true
     },
-    poster_img: {
+    password: {
         type: String,
         required: true
     },
-    game_info: {
-        type: Object
+    user_stars: {
+        type: Array,
     },
-    game_reviews: {
-        type: Object
+    created: {
+        type: Date
     }
 });
 
-module.exports = mongoose.model("Games", gameSchema);
+module.exports = mongoose.model("Users", userSchema);

@@ -19,7 +19,8 @@ const uploadToAPI = async () => {
                     title: item.title,
                     game_query: item.game_query,
                     poster_img: item.poster,
-                    game_info: item.gameInfo
+                    game_info: item.gameInfo,
+                    game_reviews: item.gameReviews,
                 });  
                 game.save();
             } catch (err) {
