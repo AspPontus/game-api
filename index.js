@@ -107,6 +107,37 @@ app.get('/api/users/:id/stars/:game', async (req, res) => {
     };
 });
 
+app.post('/api/users/:id/favorite', async (req, res) => {
+    const user = await Users.findById(req.params.id);
+    const game = await Users.findOne({user_saved: req.body.game_id}, 'user_saved.$')
+
+    try {
+        if (game && req.body.currentState) {
+            await Users.updateOne({_id: req.params.id, "user_saved": req.body.game_id}, {$pull: {"user_saved": req.body.game_id}})
+        } else {
+            user.user_saved.push(req.body.game_id)
+            user.save()
+        }
+        res.json(req.body.game_id)   
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({
+            error: 'server error please try again later',
+            message: err
+        });
+    }
+})
+
+app.get('/api/users/:id/favorite/:game', async (req, res) => {
+    const game = await Users.findOne({_id: req.params.id})
+
+    if(game.user_saved.includes(req.params.game)) {
+        res.json({saved: true})
+    } else {
+        res.json({saved: false})
+    }
+})
+
 
 app.get('/api/users/:id', async (req, res) => {
     const user = await Users.findById(req.params.id)

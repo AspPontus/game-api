@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
     user_stars: {
         type: Array,
     },
+    user_saved: {
+        type: Array,
+    },
     created: {
         type: Date
     }
