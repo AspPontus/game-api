@@ -1,4 +1,5 @@
-const Games = require("../game.js");
+const Games = require("../models/game");
+const Review = require("../models/review");
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -6,6 +7,7 @@ mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTo
 
 const trunc = async () => {
     await Games.deleteMany({})
+    await Review.deleteMany({})
   };
 
 trunc();

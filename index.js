@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Games = require("./game.js");
-const Users = require("./user.js");
+const Games = require("./models/game.js");
+const Review = require("./models/review.js");
+const Users = require("./models/user.js");
 const cors = require("cors");
 
 const corsOptions ={
@@ -20,7 +21,6 @@ app.use(cors(corsOptions));
   //Clean up formatting................................[]
   //Write tests? (long term)...........................[]
   //Refine Endpoints...................................[]
-  //Push to github.....................................[]
 
 //connect to DB
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -138,7 +138,6 @@ app.get('/api/users/:id/favorite/:game', async (req, res) => {
     }
 })
 
-
 app.get('/api/users/:id', async (req, res) => {
     const user = await Users.findById(req.params.id)
 
@@ -150,10 +149,15 @@ app.get('/api/users/:id', async (req, res) => {
     })
 });
 
+app.get('/api/game/:game_id/reviews', async (req, res) => {
+    const reviews = await Review.find({game_ref: req.params.game_id})
+    res.json(reviews)
+})
+
 //fetch games by query
 app.get("/api/games/query/:query", async (req, res) => {
     try{
-        const games = await Games.find({game_query: req.params.query})
+        const games = await Games.find({game_query: req.params.query.toString()})
         res.json(games)
     } catch (err) {
         console.error(err)
@@ -162,7 +166,6 @@ app.get("/api/games/query/:query", async (req, res) => {
         })
     }      
 });
-
 
 const listener = app.listen(process.env.PORT || 3000, () => {
     console.log('Your app is listening on port ' + listener.address().port)

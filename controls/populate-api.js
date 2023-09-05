@@ -1,4 +1,5 @@
-const Games = require("../game.js");
+const Games = require("../models/game");
+const Review = require("../models/review");
 const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
@@ -13,20 +14,30 @@ const uploadToAPI = async () => {
         await fs.readFile(fullPath, 'utf8',  (err, data) => {
            JSON.parse(data).map(async (item) => {
             const foundUser = await Games.findOne({title: item.title});
-            if(foundUser) return;
+            /* const foundReview = await Review.findOne({game_title: item.title}); */
+
+            if(foundUser) {
+                const review = await Review.create({
+                    game_ref: foundUser._id,
+                    game_title: item.title,
+                    game_reviews: item.gameReviews,
+                });  
+                review.save();
+            }
+
              try{
                const game = await Games.create({
                     title: item.title,
                     game_query: item.game_query,
                     poster_img: item.poster,
                     game_info: item.gameInfo,
-                    game_reviews: item.gameReviews,
                 });  
                 game.save();
             } catch (err) {
                 console.error(err)
             }
            })
+           
     })
 };
 uploadToAPI();
