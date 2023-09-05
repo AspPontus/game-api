@@ -1,5 +1,5 @@
-const Games = require("../models/game");
-const Review = require("../models/review");
+const Games = require("../models/game.js");
+const Review = require("../models/review.js");
 const mongoose = require('mongoose');
 require('dotenv').config();
 
