@@ -137,6 +137,10 @@ app.get('/api/users/:id/favorite/:game', async (req, res) => {
         res.json({saved: false})
     }
 })
+<<<<<<< HEAD
+=======
+
+>>>>>>> ce792666200826d8fcc92c4285b147bd7587be53
 
 app.get('/api/users/:id', async (req, res) => {
     const user = await Users.findById(req.params.id)
