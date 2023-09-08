@@ -151,12 +151,12 @@ app.get('/api/users/:id', async (req, res) => {
 app.post('/api/game/:game_id/reviews', async (req, res) => {
     const review = await Review.findOneAndUpdate({game_ref: req.params.game_id}, {$push: {'game_reviews.user_reviews': req.body}})
     res.json(review)
-})
+});
 
 app.get('/api/game/:game_id/reviews', async (req, res) => {
     const reviews = await Review.find({game_ref: req.params.game_id})
     res.json(reviews)
-})
+});
 
 app.get('/api/user/:id/reviews', async (req, res) => {
     const userReviews = await Review.find({'game_reviews.user_reviews.uid': req.params.id})
@@ -177,7 +177,7 @@ app.get('/api/user/:id/reviews', async (req, res) => {
         });
     }
     
-})
+});
 
 //fetch games by query
 app.get("/api/games/query/:query", async (req, res) => {
