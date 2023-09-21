@@ -183,6 +183,7 @@ app.get('/api/user/:id/reviews', async (req, res) => {
     
 });
 
+
 app.post('/api/user/:id/reviews/vote', async (req, res) => {
     const game = await Review.findOneAndUpdate({'game_reviews.user_reviews': req.body.review}, {$inc: {"game_reviews.user_reviews.$.vote": 1}})
     console.log(req.body, game.game_reviews)
