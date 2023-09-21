@@ -81,6 +81,7 @@ app.post('/api/users/:id/stars', async (req, res) => {
         console.log(err);
         res.status(500).json({
             error: 'server error please try again later',
+            location: 'post stars',
             message: err
         })
     }
@@ -101,6 +102,7 @@ app.get('/api/users/:id/stars/:game', async (req, res) => {
         console.log(err);
         res.status(500).json({
             error: 'server error please try again later',
+            location: 'get stars',
             message: err
         });
     };
@@ -122,6 +124,7 @@ app.post('/api/users/:id/favorite', async (req, res) => {
         console.error(err)
         res.status(500).json({
             error: 'server error please try again later',
+            location: 'post favorite',
             message: err
         });
     }
@@ -173,11 +176,19 @@ app.get('/api/user/:id/reviews', async (req, res) => {
         console.error(err)
         res.status(500).json({
             error: 'server error please try again later',
+            location: 'get user reviews',
             message: err
         });
     }
     
 });
+
+
+app.post('/api/user/:id/reviews/vote', async (req, res) => {
+    const game = await Review.findOneAndUpdate({'game_reviews.user_reviews': req.body.review}, {$inc: {"game_reviews.user_reviews.$.vote": 1}})
+    console.log(req.body, game.game_reviews)
+    res.json(req.body)
+})
 
 //fetch games by query
 app.get("/api/games/query/:query", async (req, res) => {
